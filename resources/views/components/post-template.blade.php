@@ -17,13 +17,29 @@
                 {{ $post->created_at->gt(now()->subDays(7)) ? $post->created_at->diffForHumans() : $post->created_at->toFormattedDateString() }}
             </p>
             @if (Auth::check() && Auth::user()->id == $post->user->id && request()->routeIs('profile.show'))
-               <form action="{{ route('post.destroy', $post) }}" method="POST">
-                    @method('DELETE')
-                    @csrf
-                    <x-primary-button type="submit">
+                <div x-data="{ openWarningDeletePost : false , postId : null }">
+                    <button class="bg-red-600 rounded-lg px-3 py-1 text-white hover:bg-red-700 duration-300 ease-in-out" type="button"
+                    @click="openWarningDeletePost = true; postId = '{{ $post->id }}'">
                         Delete Post
-                    </x-primary-button>
-                </form>
+                    </button>
+
+                    {{-- Form Content buat menghapus post --}}
+                    <div x-show="openWarningDeletePost" class="fixed top-0 left-0 w-full h-full bg-slate-950 bg-opacity-75 flex justify-center items-center z-50" style="display: none;">
+                        <div class="bg-white z-50 dark:bg-gray-800 w-11/12 sm:w-3/4 lg:w-[70%] xl:w-[40%] rounded-lg p-6 sm:p-4  relative" @click.outside="openWarningDeletePost = false">
+                                {{-- Form Content --}}
+                                <h2 class="lg:text-xl font-bold mb-4">Are You Sure Want To Delete This Post ?</h2>
+                                <form :action="`/post/${postId}`" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <h1 class="text-[10px] md:text-sm mb-4">This Post Will Be Deleted Permanently and Cant Be Undone</h1>
+                                    <div class="flex justify-end">
+                                        <button @click="openWarningDeletePost = false" type="button" class="mr-2 px-4 py-2 bg-gray-500 text-white rounded-lg">Cancel</button>
+                                        <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg ">Delete</button>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+                </div>
             @endif
 
         </div>
@@ -122,7 +138,7 @@
                                 @foreach ($userLikesPost as $user)
                                 <div class="flex items-center justify-between mr-2 sm:mr-4">
                                     <div class="flex items-center gap-2">
-                                        <img src="{{ $user->image ? asset('storage/' . $user->image) : asset('storage/images/gambar-foto-profil-7.jpg') }}" class="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 rounded-full object-cover" alt="">
+                                        <img src="{{ $user->image ? asset('storage/' . $user->image) : asset('images-profil/gambar-foto-profil-7.jpg') }}" class="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 rounded-full object-cover" alt="">
                                         <a href="{{ route('profile.show', $user) }}" class="text-sm sm:text-base hover:underline hover:text-blue-600 duration-300 ease-in-out">{{ $user->username }}</a>
                                     </div>
                                     <div>

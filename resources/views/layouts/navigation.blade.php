@@ -33,7 +33,7 @@
                 <div class="hidden sm:flex sm:items-center sm:gap-10 sm:ms-6 hover:bg-gray-600 duration-300 ease-in-out sm:px-2 xl:px-3 py-1 rounded-lg">
                     {{-- foto dan username dan juga nama --}}
                     <a href="{{ route('profile.show', Auth::user()) }}" class="flex items-center gap-2">
-                        <img class="sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-full object-cover" src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('storage/images/gambar-foto-profil-7.jpg') }}" alt="">
+                        <img class="sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-full object-cover" src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('images-profil/gambar-foto-profil-7.jpg') }}" alt="">
                         <div>
                             <p class="sm:text-xs md:text-sm">{{ Auth::user()->name }}</p>
                             <p class="sm:text-[10px] md:text-xs">{{ Auth::user()->username }}</p>

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\MessageBag;
 
 class PostController extends Controller
 {
@@ -18,17 +20,22 @@ class PostController extends Controller
         ]);
     }
     // untuk user bisa posting
-    public function createPost(Request $request) {
-        $validated = $request->validate([
-            'image.*' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
-            'content' => ['required', 'string'],
+    public function createPost(Request $request, MessageBag $errors) {
+
+        // Validasi
+        $request->validate([
+            'image_posts.*' => ['nullable', 'mimes:png,jpg,jpeg'],
+            'content_coba' => ['required', 'string'],
+        ],[
+            'image_posts.*.mimes' => 'File upload must be a file of type: png, jpg, jpeg.',
+            'content_coba.required' => 'Content cannot be empty.',
         ]);
 
         $imagePath = [];
 
         // Pengecekan jika user mengunggah file gambar
-        if ($request->hasFile('image')) {
-            foreach ($request->file('image') as $image) {
+        if ($request->hasFile('image_posts')) {
+            foreach ($request->file('image_posts') as $image) {
                 $imagePath[] = $image->store('images/posts', 'public');
             }
         } else {
@@ -38,7 +45,7 @@ class PostController extends Controller
 
         // pengecekan postinga user menambah atau tidak menambahkan gambar
         $post = $request->user()->posts()->create([
-            'body' => $validated['content'],
+            'body' => $request->content_coba,
         ]);
 
         // pengecekan bila user menambah atau tidak menambahkan gambar
@@ -62,12 +69,26 @@ class PostController extends Controller
     // fitur like postingan
     public function like(Post $post) {
         $post->likedByUsers()->attach(Auth::user()->id);
+
+        Notification::create([
+            'user_id' => $post->user_id,
+            'post_id' => $post->id,
+            'action_by' => Auth::user()->id,
+        ]);
+
         return redirect()->back();
     }
 
     // fitur unlike postingan
     public function unlike(Post $post) {
         $post->likedByUsers()->detach(Auth::user()->id);
+
+        // menghapus notif bila user mengklik untuk kedua kalinya
+        Notification::where('user_id', $post->user_id)
+                    ->where('post_id', $post->id)
+                    ->where('action_by', Auth::user()->id)
+                    ->where('type', 'like')->delete();
+
         return redirect()->back();
     }
 
@@ -82,6 +103,15 @@ class PostController extends Controller
             'body' => $request->comment,
             'user_id' => Auth::user()->id
         ]);
+
+        // untuk notifikasi bila user yang sedang login komen postingan
+        Notification::create([
+            'user_id' => $post->user_id,
+            'post_id' => $post->id,
+            'action_by' => Auth::user()->id,
+            'type' => 'comment',
+        ]);
+
         return redirect()->back();
     }
 

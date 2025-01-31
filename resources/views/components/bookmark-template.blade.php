@@ -7,7 +7,7 @@
         <div class="flex items-center gap-2">
             {{-- image users --}}
             <div class="w-6 h-6 sm:w-8 sm:h-8">
-                <img class="w-full h-full object-cover rounded-full" src="{{ $bookmark->post->user->image ? asset('storage/' . $bookmark->post->user->image) : asset('storage/images/gambar-foto-profil-7.jpg') }}" alt="">
+                <img class="w-full h-full object-cover rounded-full" src="{{ $bookmark->post->user->image ? asset('storage/' . $bookmark->post->user->image) : asset('images-profil/gambar-foto-profil-7.jpg') }}" alt="">
             </div>
             <a href="{{ route('profile.show', $bookmark->post->user) }}" class="text-xs sm:text-base hover:underline hover:text-blue-600 duration-300 ease-in-out">{{ $bookmark->post->user->username }}</a>
         </div>
@@ -107,7 +107,7 @@
                                 @foreach ($userLikesPost as $user)
                                 <div class="flex items-center justify-between mr-2 sm:mr-4">
                                     <div class="flex items-center gap-2">
-                                        <img src="{{ $user->image ? asset('storage/' . $user->image) : asset('storage/images/gambar-foto-profil-7.jpg') }}" class="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 rounded-full object-cover" alt="">
+                                        <img src="{{ $user->image ? asset('storage/' . $user->image) : asset('images-profil/gambar-foto-profil-7.jpg') }}" class="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 rounded-full object-cover" alt="">
                                         <a href="{{ route('profile.show', $user) }}" class="text-sm sm:text-base hover:underline hover:text-blue-600 duration-300 ease-in-out">{{ $user->username }}</a>
                                     </div>
                                     <div>

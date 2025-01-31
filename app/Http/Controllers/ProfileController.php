@@ -135,7 +135,7 @@ class ProfileController extends Controller
     public function updateUserImage(Request $request)
     {
         // Validasi file yang diunggah
-        $validated = $request->validate([
+        $request->validate([
             'image' => ['required', 'image' ,'mimes:png,jpg,jpeg'],
         ]);
 

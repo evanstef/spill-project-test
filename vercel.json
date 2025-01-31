@@ -27,9 +27,9 @@
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie",
         "DB_CONNECTION": "mysql",
-        "DB_HOST": "4e6lk.h.filess.io",
-        "DB_PORT": "3307",
-        "DB_DATABASE": "spillProject_tideguard",
-        "DB_USERNAME": "spillProject_tideguard"
+        "DB_HOST": "n-f5n.h.filess.io",
+        "DB_PORT": "3306",
+        "DB_DATABASE": "spilprojecttest_edgebound",
+        "DB_USERNAME": "spilprojecttest_edgebound"
     }
 }
