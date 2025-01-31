@@ -19,7 +19,7 @@
         "APP_ENV": "production",
         "APP_DEBUG": "false",
         "APP_URL": "https://spill-project-test.vercel.app/",
-        "APP_KEY": "base64:FnDF6aITnCZYT0A85wvNx1uf7rHah5mlXKgF0RXgMBM=",
+        "APP_KEY": "base64:dzzBH3Tcw1Q5b+1BUdW4TA46UCy/AVkpSA+PooRPlxs=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
